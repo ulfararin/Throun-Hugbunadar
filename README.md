@@ -1,5 +1,5 @@
 # Throun-Hugbunadar
 Þróun hugbúnaðar 2017
-yoyoyoyoyoyo
-aevar er gay
-ulfar er gay
+Bjö er gay
+Bunch af deleted branches
+This is still really weird
