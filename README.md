@@ -1,3 +1,5 @@
 # Throun-Hugbunadar
 Þróun hugbúnaðar 2017
-yoyoyoyoyoyo
+Bjö er gay
+Bunch af deleted branches
+This is still really weird
