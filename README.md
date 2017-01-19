@@ -1,5 +1,4 @@
 # Throun-Hugbunadar
 Þróun hugbúnaðar 2017
-Bjö er gay
-Bunch af deleted branches
-This is still really weird
+Jetbrains testing 1/3
+Does this stuff work as a CVS?
