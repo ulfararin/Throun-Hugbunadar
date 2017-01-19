@@ -1,4 +1,7 @@
 # Throun-Hugbunadar
-Þróun hugbúnaðar 2017
-Jetbrains testing 1/3
-Does this stuff work as a CVS?
+public class HelloWorld{
+    public static void main(String[] args){
+        System.out.println("Hello");
+        System.out.println("World);
+    }
+}
