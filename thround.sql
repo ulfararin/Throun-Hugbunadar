@@ -1,4 +1,6 @@
 drop table if exists Trip;
+drop table if exists Booking;
+drop table if exists User;
 
 CREATE TABLE Trip(Id text, cost integer, cap integer, desc text, time DATE, duration INTEGER, start FLOAT, name text);
 
@@ -12,3 +14,12 @@ INSERT INTO Trip values ('zSdPS', 30000, 8, 'Horseback riding of Icelandic highl
 INSERT INTO Trip values ('EM2vx', 40000, 50, 'Take part in a reenactment of viking era Iceland', 2017-11-03, 3, 14.00, 'The viking experience');
 INSERT INTO Trip values ('E0GV6', 50000, 1000, 'Hop on a tour going through the more famous museums in Reykjavik', 2017-10-12, 3, 14.00, 'Museum ride');
 INSERT INTO Trip values ('cCszZ', 60000, 12, 'Select a museum and get a tourguide to walk you through it.', 2017-08-02, 3, 14.00, 'Tourguides');
+
+CREATE TABLE User(Id text, email text, name text);
+
+CREATE TABLE Booking(
+  userID text,
+  tripID text,
+  review text,
+  PRIMARY KEY(userID, tripID)
+);

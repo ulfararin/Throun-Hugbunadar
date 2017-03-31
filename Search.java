@@ -17,15 +17,14 @@ public class Search{
   private List<Trip> trips = new ArrayList<Trip>();
   //Put the initial value of key and email as null in case a user without an account logs in without any authenication
   private String key = null;
-  public Search(String k, String prio){
-    this.key = k;
+  private DBConnector connection;
+  public Search(){
     //this.trips = test();
     //sortTrips(prio);
   }
 
   public static void main(String[] args){
-    System.out.println("yo");
-    Search t = new Search("bab", "Capacity");
+    Search t = new Search();
   }
 
   /*public List<Trip> test(){
@@ -89,8 +88,8 @@ public class Search{
       Iterator i = set.iterator();
       while(i.hasNext()) {
           Map.Entry me = (Map.Entry)i.next();
-          System.out.print(me.getKey() + ": ");
-          System.out.println(me.getValue());
+          Trip temp = (Trip)me.getValue();
+          trips.add(temp);
        }
     }
   }
