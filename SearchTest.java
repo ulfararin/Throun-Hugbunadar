@@ -83,7 +83,6 @@ public class SearchTest{
 
   @Test
   public void evaluateWrongJSONFormatSearch(){
-
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     String cost = "ThisShouldGiveEmpty";
@@ -98,7 +97,6 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithManyVariable(){
-
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     s.add(9);
@@ -120,7 +118,6 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithStart(){
-
       List<Integer> s = new ArrayList<Integer>();
       List<Double> b = new ArrayList<Double>();
       int cost = 0;
@@ -137,7 +134,6 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithCapacity(){
-
       List<Integer> s = new ArrayList<Integer>();
       List<Double> b = new ArrayList<Double>();
       int cost = 0;
@@ -153,7 +149,6 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithDuration(){
-
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     s.add(9);
@@ -174,7 +169,6 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithDurationAndCapacity(){
-
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     s.add(9);
