@@ -164,4 +164,45 @@ public class SearchTest{
     compareTo.add("MxuCe");
     assertTrue(compareTo.equals(temp));
   }
+
+  @Test
+  public void evaluateSpecificSearchWithDurationAndCapacity(){
+    JSONObject obj = new JSONObject();
+    List<Integer> s = new ArrayList<Integer>();
+    List<Double> b = new ArrayList<Double>();
+    s.add(9);
+    s.add(7);
+    int cost = 0;
+    int capacity = 12;
+    obj.put("duration", s);
+    obj.put("start", b);
+    obj.put("cost", cost);
+    obj.put("capacity", capacity);
+    DBConnector toCompare = new DBConnector();
+    List<Trip> toEvaluate = toCompare.query(obj);
+    List<String> temp = new ArrayList<String>();
+    List<String> compareTo = new ArrayList<String>();
+    for(Trip t: toEvaluate) temp.add(t.getId());
+    compareTo.add("Gt7fO");
+    compareTo.add("MxuCe");
+    compareTo.add("yoGWU");
+    assertTrue(compareTo.equals(temp));
+  }
+
+  @Test
+  public void evaluateFindBookedTripsNormalInput(){
+    String key = "bjo";
+    DBConnector toCompare = new DBConnector();
+    List<Trip> booked = toCompare.findBookedTrips(key);
+    Trip temp = booked.get(0);
+    assertEquals("Gt7fO", temp.getId());
+  }
+
+  @Test
+  public void evaluateFindBookedTripsRiskyInput(){
+    String key = "bjo OR 1=1";
+    DBConnector toCompare = new DBConnector();
+    List<Trip> booked = toCompare.findBookedTrips(key);
+    assertTrue(booked.isEmpty());
+  }
 }

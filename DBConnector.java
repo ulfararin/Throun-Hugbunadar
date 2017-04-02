@@ -122,12 +122,12 @@ public class DBConnector {
 
     public List<Trip> findBookedTrips(String key){
       List<Trip> bookedTrips = new ArrayList<Trip>();
-      String newkey = "\"" + key + "\"";
-      String book = "SELECT * FROM Trip WHERE Id = (SELECT tripID FROM Booking WHERE userID = " + newkey + ")";
       try{
+        String search = "SELECT * FROM Trip WHERE Id = (SELECT tripID FROM Booking WHERE userID = ?)";
         this.connection = DriverManager.getConnection(url);
-        Statement booked = connection.createStatement();
-        ResultSet rs = booked.executeQuery(book);
+        PreparedStatement booked = connection.prepareStatement(search);
+        booked.setString(1, key);
+        ResultSet rs = booked.executeQuery();
         while(rs.next()){
           String name = rs.getString("name");
           String desc = rs.getString("desc");
@@ -141,6 +141,7 @@ public class DBConnector {
         return bookedTrips;
       }
       catch(SQLException e){
+        System.out.println("yo");
         return bookedTrips;
       }
     }
@@ -164,7 +165,8 @@ public class DBConnector {
        obj.put("cost", arg1);
        obj.put("capacity", key);
        DBConnector test = new DBConnector();
-       List<Trip> query = test.query(obj);
-       List<Trip> booked = test.findBookedTrips("bjo");
+       //List<Trip> query = test.query(obj);
+       List<Trip> booked = test.findBookedTrips("bjo OR 1=1");
+       System.out.println(booked.isEmpty());
      }
 }
