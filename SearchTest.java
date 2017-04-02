@@ -6,6 +6,18 @@ import org.json.simple.JSONObject;
 import java.util.Date;
 
 public class SearchTest{
+  private DBConnector toCompare;
+
+  @Before
+  public void setUp(){
+    toCompare = new DBConnector();
+  }
+
+  @After
+  public void tearDown(){
+    toCompare = null;
+  }
+
   @Test
   public void evaluatesSearchEmpty(){
     List<String> evaluate = new ArrayList<String>();
@@ -20,7 +32,6 @@ public class SearchTest{
     evaluate.add("EM2vx");
     evaluate.add("E0GV6");
     evaluate.add("cCszZ");
-    DBConnector toCompare = new DBConnector();
     JSONObject obj = new JSONObject();
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
@@ -37,7 +48,6 @@ public class SearchTest{
 
   @Test
   public void evaluateSearchWrongFormat(){
-    DBConnector toCompare = new DBConnector();
     JSONObject obj = new JSONObject();
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
@@ -80,7 +90,6 @@ public class SearchTest{
     obj.put("start", b);
     obj.put("cost", cost);
     obj.put("capacity", capacity);
-    DBConnector toCompare = new DBConnector();
     List<Trip> evaluate = toCompare.query(obj);
     assertTrue(evaluate.isEmpty());
   }
@@ -98,7 +107,6 @@ public class SearchTest{
     obj.put("start", b);
     obj.put("cost", cost);
     obj.put("capacity", capacity);
-    DBConnector toCompare = new DBConnector();
     List<Trip> toEvaluate = toCompare.query(obj);
     List<String> temp = new ArrayList<String>();
     List<String> compareTo = new ArrayList<String>();
@@ -120,7 +128,6 @@ public class SearchTest{
       obj.put("start", b);
       obj.put("cost", cost);
       obj.put("capacity", capacity);
-      DBConnector toCompare = new DBConnector();
       List<Trip> toEvaluate = toCompare.query(obj);
       Trip compare = toEvaluate.get(0);
       assertEquals("Gt7fO", compare.getId());
@@ -137,7 +144,6 @@ public class SearchTest{
       obj.put("start", b);
       obj.put("cost", cost);
       obj.put("capacity", capacity);
-      DBConnector toCompare = new DBConnector();
       List<Trip> toEvaluate = toCompare.query(obj);
       Trip compare = toEvaluate.get(0);
       assertEquals("EM2vx", compare.getId());
@@ -155,7 +161,6 @@ public class SearchTest{
     obj.put("start", b);
     obj.put("cost", cost);
     obj.put("capacity", capacity);
-    DBConnector toCompare = new DBConnector();
     List<Trip> toEvaluate = toCompare.query(obj);
     List<String> temp = new ArrayList<String>();
     List<String> compareTo = new ArrayList<String>();
@@ -178,7 +183,6 @@ public class SearchTest{
     obj.put("start", b);
     obj.put("cost", cost);
     obj.put("capacity", capacity);
-    DBConnector toCompare = new DBConnector();
     List<Trip> toEvaluate = toCompare.query(obj);
     List<String> temp = new ArrayList<String>();
     List<String> compareTo = new ArrayList<String>();
@@ -192,7 +196,6 @@ public class SearchTest{
   @Test
   public void evaluateFindBookedTripsNormalInput(){
     String key = "bjo";
-    DBConnector toCompare = new DBConnector();
     List<Trip> booked = toCompare.findBookedTrips(key);
     Trip temp = booked.get(0);
     assertEquals("Gt7fO", temp.getId());
@@ -201,7 +204,6 @@ public class SearchTest{
   @Test
   public void evaluateFindBookedTripsRiskyInput(){
     String key = "bjo OR 1=1";
-    DBConnector toCompare = new DBConnector();
     List<Trip> booked = toCompare.findBookedTrips(key);
     assertTrue(booked.isEmpty());
   }
