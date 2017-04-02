@@ -61,14 +61,7 @@ public class Search{
       for(Trip piv: trips){
         try{
           method = piv.getClass().getMethod(func);
-          String key = "" + method.invoke(piv);
-          try{
-            int intkey = Integer.parseInt(key);
-            tree.put(intkey, piv);
-          }
-          catch(NumberFormatException e){
-            tree.put(key, piv);
-          }
+          tree.put(method.invoke(piv), piv);
         }
         catch(IllegalAccessException x){
           System.out.println("Can't do that");

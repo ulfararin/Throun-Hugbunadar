@@ -2,7 +2,15 @@ drop table if exists Trip;
 drop table if exists Booking;
 drop table if exists User;
 
-CREATE TABLE Trip(Id text, cost integer, cap integer, desc text, time DATE, duration INTEGER, start FLOAT, name text);
+CREATE TABLE Trip(
+  Id text PRIMARY KEY, 
+  cost integer,
+  cap integer,
+  desc text,
+  time DATE,
+  duration INTEGER,
+  start FLOAT,
+  name text);
 
 INSERT INTO Trip values ('Gt7fO', 10000, 12, 'Jeep-tours around some famous Icelandic glaciers', 2017-08-12, 9, 10.00, 'Ultrajepp Glaciertours');
 INSERT INTO Trip values ('W3jgY', 15000, 12, 'Jeep-tour around Icelandic highland, stopping at POI', 2017-08-20, 3, 4.00, 'Ultrajepp Northern Lights tour');
