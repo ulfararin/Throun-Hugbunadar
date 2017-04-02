@@ -9,15 +9,14 @@ import java.util.Date;
  * @author Björn Guðmundsson
  */
 public class DBConnector {
-    private  List<Trip> bookedTrips = new ArrayList<Trip>();
     private  String url = "jdbc:sqlite:Thround.db";
     private  Connection connection = null;
-    private  List<Trip> results = new ArrayList<Trip>();
 
     public DBConnector(){
     }
-    public void query(JSONObject preferences)
+    public List<Trip> query(JSONObject preferences)
    {
+       List<Trip> results = new ArrayList<Trip>();
        try{
          this.connection = DriverManager.getConnection(url);
        }
@@ -27,6 +26,8 @@ public class DBConnector {
        try {
          // db parameteresults
          // create a connection to the database
+
+         try{
          String select = "SELECT * FROM Trip WHERE";
          List<Double> start = (List<Double>)preferences.get("start");
          List<Integer> duration = (List<Integer>)preferences.get("duration");
@@ -40,9 +41,15 @@ public class DBConnector {
              }
              select = select + " start = " + start.get(start.size() - 1) + ")";
          }
+         System.out.println(start);
 
          if(!duration.isEmpty()){
-           select = select + " AND (";
+           int len = select.length();
+           String k = select.substring(len - 5, len);
+           if(k.equals("WHERE")){
+             select = select + " (";
+           }
+           else select = select + " AND (";
            for(int dur: duration.subList(0, duration.size() - 1))
            {
                select = select + " duration = " + dur + " OR ";
@@ -67,7 +74,7 @@ public class DBConnector {
          System.out.println(select);
 
          if(select.substring(select.length() - 5, select.length()).equals("WHERE")) select = "SELECT * FROM Trip";
-         System.out.println(select);
+         //System.out.println(select);
          Statement statement = connection.createStatement();
          //statement.setQueryTimeout(30);
 
@@ -83,39 +90,58 @@ public class DBConnector {
            Trip newTrip = new Trip(name, desc, capa, i, deit);
            results.add(newTrip);
          }
-         for(Trip t : results) System.out.println(t);
+         //for(Trip t : results) System.out.println(t);
+         return results;
+       }
+       catch(NullPointerException e){
+         System.out.println("Not the right format");
+         return results;
+       }
+       catch(ClassCastException e){
+         System.out.println("wrong formatting of json object");
+         return results;
+       }
        }
        catch (SQLException e) {
-         System.out.println(e.getMessage());
+         return results;
        }
        finally
        {
          try {
              if (connection != null) {
                connection.close();
+               return results;
              }
          }
          catch (SQLException ex) {
              System.out.println(ex.getMessage());
+             return results;
          }
        }
    }
 
-    public void findBookedTrips(String key){
+    public List<Trip> findBookedTrips(String key){
+      List<Trip> bookedTrips = new ArrayList<Trip>();
       String newkey = "\"" + key + "\"";
       String book = "SELECT * FROM Trip WHERE Id = (SELECT tripID FROM Booking WHERE userID = " + newkey + ")";
-      System.out.println(book);
       try{
         this.connection = DriverManager.getConnection(url);
         Statement booked = connection.createStatement();
         ResultSet rs = booked.executeQuery(book);
         while(rs.next()){
-          System.out.println(rs.getString("name"));
+          String name = rs.getString("name");
+          String desc = rs.getString("desc");
+          int capa = rs.getInt("cap");
+          java.util.Date deit = new Date(rs.getDate("time").getTime());
+          String i = rs.getString("id");
+          Trip newTrip = new Trip(name, desc, capa, i, deit);
+          bookedTrips.add(newTrip);
         }
         connection.close();
+        return bookedTrips;
       }
       catch(SQLException e){
-        System.out.println(" yo" + e);
+        return bookedTrips;
       }
     }
 
@@ -132,13 +158,13 @@ public class DBConnector {
        //s.add(arg);
        List<Double> b = new ArrayList<Double>();
        //b.add(arg2);
+       String key = args[4];
        obj.put("duration", s);
        obj.put("start", b);
        obj.put("cost", arg1);
-       obj.put("capacity", arg3);
-       String key = args[4];
+       obj.put("capacity", key);
        DBConnector test = new DBConnector();
-       test.query(obj);
-       test.findBookedTrips("bjo");
+       List<Trip> query = test.query(obj);
+       List<Trip> booked = test.findBookedTrips("bjo");
      }
 }
