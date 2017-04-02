@@ -7,15 +7,18 @@ import java.util.Date;
 
 public class SearchTest{
   private DBConnector toCompare;
+  private JSONObject obj;
 
   @Before
   public void setUp(){
     toCompare = new DBConnector();
+    obj = new JSONObject();
   }
 
   @After
   public void tearDown(){
     toCompare = null;
+    obj = null;
   }
 
   @Test
@@ -32,7 +35,6 @@ public class SearchTest{
     evaluate.add("EM2vx");
     evaluate.add("E0GV6");
     evaluate.add("cCszZ");
-    JSONObject obj = new JSONObject();
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     int cost = 0;
@@ -48,7 +50,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSearchWrongFormat(){
-    JSONObject obj = new JSONObject();
+
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     int cost = 0;
@@ -64,7 +66,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithCost(){
-    JSONObject obj = new JSONObject();
+
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     int cost = 10000;
@@ -81,7 +83,7 @@ public class SearchTest{
 
   @Test
   public void evaluateWrongJSONFormatSearch(){
-    JSONObject obj = new JSONObject();
+
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     String cost = "ThisShouldGiveEmpty";
@@ -96,7 +98,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithManyVariable(){
-    JSONObject obj = new JSONObject();
+
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     s.add(9);
@@ -118,7 +120,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithStart(){
-      JSONObject obj = new JSONObject();
+
       List<Integer> s = new ArrayList<Integer>();
       List<Double> b = new ArrayList<Double>();
       int cost = 0;
@@ -135,7 +137,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithCapacity(){
-      JSONObject obj = new JSONObject();
+
       List<Integer> s = new ArrayList<Integer>();
       List<Double> b = new ArrayList<Double>();
       int cost = 0;
@@ -151,7 +153,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithDuration(){
-    JSONObject obj = new JSONObject();
+
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     s.add(9);
@@ -172,7 +174,7 @@ public class SearchTest{
 
   @Test
   public void evaluateSpecificSearchWithDurationAndCapacity(){
-    JSONObject obj = new JSONObject();
+
     List<Integer> s = new ArrayList<Integer>();
     List<Double> b = new ArrayList<Double>();
     s.add(9);
