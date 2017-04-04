@@ -36,13 +36,40 @@ public class Update{
         change.setString(2, tripId);
         change.executeUpdate();
       }
-      if(check != null) check.close();
-      if(update != null) update.close();
-      if(change != null) change.close();
-      if(connection != null) update.close();
     }
     catch(SQLException e){
       System.out.println(e);
+    }
+    finally{
+      if(check != null){
+        try{
+           check.close();
+        }
+        catch(SQLException e){
+
+        }
+      }
+      if(update != null){
+        try{
+           update.close();
+        }
+        catch(SQLException e){
+
+        }
+      }
+      if(change != null){
+        try{
+           change.close();
+        }
+        catch(SQLException e){
+        }
+      }
+      if(connection != null){
+        try{
+          connection.close();
+        }
+        catch(SQLException e){}
+      }
     }
   }
   public void removeABooking(String userId, String tripId){
@@ -54,16 +81,28 @@ public class Update{
       delete.setString(1, userId);
       delete.setString(2, tripId);
       delete.executeUpdate();
-      if(delete != null) delete.close();
-      if(connection != null) connection.close();
     }
     catch(SQLException e){
       System.out.println(e);
     }
+    finally{
+      if(delete != null){
+        try{
+           delete.close();
+        }
+        catch(SQLException e){}
+      }
+      if(connection != null){
+        try{
+           connection.close();
+        }
+        catch(SQLException e){}
+      }
+    }
   }
   public void removeATrip(String tripId){
     PreparedStatement remove = null;
-    PreparedStatement removeBooking;
+    PreparedStatement removeBooking = null;
     try{
       this.connection = DriverManager.getConnection(url);
       String rem = "DELETE FROM Trip WHERE Id = ?";
@@ -75,13 +114,43 @@ public class Update{
       remove.setString(1, tripId);
       remove.executeUpdate();
     }
-    catch(SQLException e){
+    catch(SQLException e){}
+    finally{
+      if(connection != null){
+        try{
+           connection.close();
+        }
+        catch(SQLException e){
 
+        }
+      }
+      if(remove != null){
+        try{
+           remove.close();
+        }
+        catch(SQLException e){
+
+        }
+      }
+      if(removeBooking != null){
+        try{
+           removeBooking.close();
+        }
+        catch(SQLException e){
+        }
+      }
     }
   }
 
   public void addATrip(){
+  }
 
+  public void addAReview(String userId, String review){
+    try{
+      this.connection = DriverManager.getConnection(url);
+      PreparedStatement add = null;
+    }
+    catch(SQLException e){}
   }
   public static void main(String args[]){
     Update test = new Update();
