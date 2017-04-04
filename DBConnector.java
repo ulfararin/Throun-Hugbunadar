@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.text.ParseException;
 
 /**
  *
@@ -33,6 +36,8 @@ public class DBConnector {
          List<Integer> duration = (List<Integer>)preferences.get("duration");
          int cost = (int)preferences.get("cost");
          int capacity = (int)preferences.get("capacity");
+         /*Date date1 = (Date)preferences.get("date1");
+         Date date2 = (Date)preferences.get("date2");*/
 
          if(!start.isEmpty()){
            select = select + " (";
@@ -64,13 +69,20 @@ public class DBConnector {
            }
            else select = select + " cost <= " + cost;
          }
-         where = select.substring(select.length()-5, select.length());
          if(capacity > 0){
+           where = select.substring(select.length()-5, select.length());
            if(!where.equals("WHERE")){
              select = select + " AND cap >= " + capacity;
            }
            else select = select + " cap >= " + capacity;
          }
+         /*if(date1 != null && date2 != null){
+           where = select.substring(select.length()-5, select.length());
+           if(!where.equals("WHERE")){
+             select = select + " AND time BETWEEN " + date1 + " AND " + date2;
+           }
+           else select = select + " time BETWEEN " + date1 + " AND " + date2;
+         }*/
          System.out.println(select);
 
          if(select.substring(select.length() - 5, select.length()).equals("WHERE")) select = "SELECT * FROM Trip";
@@ -85,7 +97,7 @@ public class DBConnector {
            String name = rs.getString("name");
            String desc = rs.getString("desc");
            int capa = rs.getInt("cap");
-           java.util.Date deit = new Date(rs.getDate("time").getTime());
+           Date deit = new Date(rs.getDate("time").getTime());
            String i = rs.getString("id");
            Trip newTrip = new Trip(name, desc, capa, i, deit);
            results.add(newTrip);
@@ -132,7 +144,7 @@ public class DBConnector {
           String name = rs.getString("name");
           String desc = rs.getString("desc");
           int capa = rs.getInt("cap");
-          java.util.Date deit = new Date(rs.getDate("time").getTime());
+          Date deit = new Date(rs.getDate("time").getTime());
           String i = rs.getString("id");
           Trip newTrip = new Trip(name, desc, capa, i, deit);
           bookedTrips.add(newTrip);
@@ -166,7 +178,7 @@ public class DBConnector {
        obj.put("capacity", key);
        DBConnector test = new DBConnector();
        //List<Trip> query = test.query(obj);
-       List<Trip> booked = test.findBookedTrips("bjo OR 1=1");
-       System.out.println(booked.isEmpty());
+       List<Trip> booked = test.findBookedTrips("bjo");
+       for(Trip t: booked) System.out.println(t);
      }
 }
