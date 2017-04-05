@@ -6,10 +6,10 @@ public class Trip{
   private String desc;
   private java.util.Date date;
   private int capacity;
-  private String id;
+  private int id;
 
 
-  public Trip (String n, String d, int c, String i, java.util.Date da){
+  public Trip (String n, String d, int c, int i, java.util.Date da){
     this.name = n;
     this.desc = d;
     this.date = da;
@@ -32,7 +32,7 @@ public class Trip{
     return this.capacity;
   }
 
-  public String getId(){
+  public int getId(){
     return this.id;
   }
 

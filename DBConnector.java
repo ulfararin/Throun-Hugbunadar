@@ -98,7 +98,7 @@ public class DBConnector {
            String desc = rs.getString("desc");
            int capa = rs.getInt("cap");
            Date deit = new Date(rs.getDate("time").getTime());
-           String i = rs.getString("id");
+           int i = rs.getInt("id");
            Trip newTrip = new Trip(name, desc, capa, i, deit);
            results.add(newTrip);
          }
@@ -145,7 +145,7 @@ public class DBConnector {
           String desc = rs.getString("desc");
           int capa = rs.getInt("cap");
           Date deit = new Date(rs.getDate("time").getTime());
-          String i = rs.getString("id");
+          int i = rs.getInt("id");
           Trip newTrip = new Trip(name, desc, capa, i, deit);
           bookedTrips.add(newTrip);
         }

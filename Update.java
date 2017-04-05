@@ -11,7 +11,7 @@ public class Update{
   private  String url = "jdbc:sqlite:Thround.db";
   private Connection connection = null;
   public Update(){}
-  public void bookATrip(String tripId, int howMany, String userId){
+  public void bookATrip(int tripId, int howMany, int userId){
     PreparedStatement check = null;
     PreparedStatement update = null;
     PreparedStatement change = null;
@@ -21,19 +21,19 @@ public class Update{
       String search = "SELECT * FROM User WHERE Id = ?";
       String toChange = "Update Trip SET cap = cap - ? " + " WHERE Id = ?";
       check = connection.prepareStatement(search);
-      check.setString(1, userId);
+      check.setInt(1, userId);
       ResultSet rs = check.executeQuery();
       if(!rs.next()){
         return;
       }
       else{
         update = connection.prepareStatement(booking);
-        update.setString(1, userId);
-        update.setString(2, tripId);
+        update.setInt(1, userId);
+        update.setInt(2, tripId);
         update.executeUpdate();
         change = connection.prepareStatement(toChange);
         change.setInt(1, howMany);
-        change.setString(2, tripId);
+        change.setInt(2, tripId);
         change.executeUpdate();
       }
     }
@@ -72,14 +72,14 @@ public class Update{
       }
     }
   }
-  public void removeABooking(String userId, String tripId){
+  public void removeABooking(int userId, int tripId){
     PreparedStatement delete = null;
     try{
       String del = "DELETE FROM Booking WHERE userID = ? " + "AND tripID = ?";
       this.connection = DriverManager.getConnection(url);
       delete = connection.prepareStatement(del);
-      delete.setString(1, userId);
-      delete.setString(2, tripId);
+      delete.setInt(1, userId);
+      delete.setInt(2, tripId);
       delete.executeUpdate();
     }
     catch(SQLException e){
@@ -100,7 +100,7 @@ public class Update{
       }
     }
   }
-  public void removeATrip(String tripId){
+  public void removeATrip(int tripId){
     PreparedStatement remove = null;
     PreparedStatement removeBooking = null;
     try{
@@ -108,10 +108,10 @@ public class Update{
       String rem = "DELETE FROM Trip WHERE Id = ?";
       String remBook = "DELETE FROM Booking WHERE tripId = ?";
       removeBooking = connection.prepareStatement(remBook);
-      removeBooking.setString(1, tripId);
+      removeBooking.setInt(1, tripId);
       removeBooking.executeUpdate();
       remove = connection.prepareStatement(rem);
-      remove.setString(1, tripId);
+      remove.setInt(1, tripId);
       remove.executeUpdate();
     }
     catch(SQLException e){}
@@ -155,7 +155,7 @@ public class Update{
   public static void main(String args[]){
     Update test = new Update();
     //test.bookATrip("Gt7fO", 3, "ket");
-    test.removeABooking("bjo", "Gt7fO");
-    test.removeATrip("Gt7fO");
+    //test.removeABooking("bjo", "Gt7fO");
+    //test.removeATrip("Gt7fO");
   }
 }
