@@ -72,13 +72,13 @@ public class Update{
       }
     }
   }
-  public void removeABooking(int userId, int tripId){
+  public void removeABooking(String userId, int tripId){
     PreparedStatement delete = null;
     try{
       String del = "DELETE FROM Booking WHERE userID = ? " + "AND tripID = ?";
       this.connection = DriverManager.getConnection(url);
       delete = connection.prepareStatement(del);
-      delete.setInt(1, userId);
+      delete.setString(1, userId);
       delete.setInt(2, tripId);
       delete.executeUpdate();
     }
@@ -154,8 +154,8 @@ public class Update{
   }
   public static void main(String args[]){
     Update test = new Update();
-    //test.bookATrip("Gt7fO", 3, "ket");
-    //test.removeABooking("bjo", "Gt7fO");
-    //test.removeATrip("Gt7fO");
+    test.bookATrip(2, 3, 1);
+    //test.removeABooking(1, 2);
+    test.removeATrip(1);
   }
 }

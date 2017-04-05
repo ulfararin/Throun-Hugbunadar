@@ -97,7 +97,7 @@ public class DBConnector {
            String name = rs.getString("name");
            String desc = rs.getString("desc");
            int capa = rs.getInt("cap");
-           Date deit = new Date(rs.getDate("time").getTime());
+           String deit = rs.getString("time");
            int i = rs.getInt("id");
            Trip newTrip = new Trip(name, desc, capa, i, deit);
            results.add(newTrip);
@@ -144,8 +144,8 @@ public class DBConnector {
           String name = rs.getString("name");
           String desc = rs.getString("desc");
           int capa = rs.getInt("cap");
-          Date deit = new Date(rs.getDate("time").getTime());
-          int i = rs.getInt("id");
+          String deit = rs.getString("time");
+          int i = rs.getString("id");
           Trip newTrip = new Trip(name, desc, capa, i, deit);
           bookedTrips.add(newTrip);
         }
@@ -175,10 +175,10 @@ public class DBConnector {
        obj.put("duration", s);
        obj.put("start", b);
        obj.put("cost", arg1);
-       obj.put("capacity", key);
+       obj.put("capacity", arg3);
        DBConnector test = new DBConnector();
-       //List<Trip> query = test.query(obj);
+       List<Trip> query = test.query(obj);
        List<Trip> booked = test.findBookedTrips("bjo");
-       for(Trip t: booked) System.out.println(t);
+       for(Trip t: query) System.out.println(t);
      }
 }
