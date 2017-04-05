@@ -4,12 +4,12 @@ import java.util.Date;
 public class Trip{
   private String name;
   private String desc;
-  private java.util.Date date;
+  private String date;
   private int capacity;
   private int id;
 
 
-  public Trip (String n, String d, int c, int i, java.util.Date da){
+  public Trip (String n, String d, int c, int i, String da){
     this.name = n;
     this.desc = d;
     this.date = da;
@@ -24,7 +24,7 @@ public class Trip{
     return this.desc;
   }
 
-  public java.util.Date getDate(){
+  public String getDate(){
     return this.date;
   }
 
@@ -37,7 +37,7 @@ public class Trip{
   }
 
   public String toString(){
-    String print = name +  " " + desc +  " "  + capacity +  " "  + id;
+    String print = name +  " " + desc +  " "  + capacity +  " "  + id + " " + date;
     return print;
   }
   public static void main(String[] args){
