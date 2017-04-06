@@ -45,7 +45,6 @@ public class DayTrips {
 				System.out.println(userName.getText());
 			}
 			else{
-				frame.add(successLogin);
 				successLogin.setVisible(true);
 				successLogin.setText("We were unable to login to your account, may be wrong password user name combination");
 			}
@@ -84,6 +83,8 @@ public class DayTrips {
 		frame.add(userName);
 		frame.add(userPassWord);
 		frame.add(button1);
+		frame.add(successLogin);
+		successLogin.setVisible(false);
 		frame.add(createAccount);
 	}
 

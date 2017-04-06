@@ -21,26 +21,25 @@ public class AccountCreation {
 	
 	private class confirmAccount implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			errorLabel = new JLabel();
 			String p1 = pw1.getText();
 			String p2 = pw2.getText();
 			String name = userName.getText();
 			String email = emailField.getText();
-			if(p1.equals(p2) && p1 != null && p1 != "" && name != null && name != ""){
+			boolean mail = email.equals("")||email.contains("@");
+			System.out.println("@");
+			if(p1.equals(p2) && p1 != null && !p1.equals("") && name != null && !name.equals("") && mail){
 				try{
 					putInDB = new Update();
 					putInDB.addUser(name, email, p1);
 					frame.setVisible(false);
 					frame.dispose();
 				}
-				catch(SQLException ex){
-					frame.add(errorLabel);
+				catch(SQLException ex){;
 					errorLabel.setVisible(true);
 					errorLabel.setText("Already exists or dangerous input");
 				}
 			}
 			else{
-				frame.add(errorLabel);
 				errorLabel.setVisible(true);
 				errorLabel.setText("passwords don't match or some fields are empty");
 			}
@@ -63,10 +62,13 @@ public class AccountCreation {
 		confirm.setPreferredSize(new Dimension(150, 40));
 		confirm.setText("Confirm");
 		confirm.addActionListener(new confirmAccount());
+		errorLabel = new JLabel();
 		frame.add(userName);
 		frame.add(pw1);
 		frame.add(pw2);
 		frame.add(emailField);
+		frame.add(errorLabel);
+		errorLabel.setVisible(false);
 		frame.add(confirm);
 	}
 }
