@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Björn Guðmundsson
  */
 public class DBConnector {
-    private  String url = "jdbc:sqlite:C:/Users/Bjorn Gudmundsson/Documents/GitHub/throun-hugbo/Throun-Hugbunadar/Thround.db";
+    private  String url = "jdbc:sqlite:C:/Users/Bj-rn/Documents/GitHub/Throun-Hugbunadar/Thround.db";
     private  Connection connection = null;
 
     public DBConnector(){
@@ -34,6 +34,8 @@ public class DBConnector {
          List<Integer> duration = (List<Integer>)preferences.get("duration");
          int cost = (int)preferences.get("cost");
          int capacity = (int)preferences.get("capacity");
+         String d1 = ""+preferences.get("arrive");
+         String d2 = ""+preferences.get("depart");
          /*Date date1 = (Date)preferences.get("date1");
          Date date2 = (Date)preferences.get("date2");*/
 
@@ -74,13 +76,15 @@ public class DBConnector {
            }
            else select = select + " cap >= " + capacity;
          }
-         /*if(date1 != null && date2 != null){
+         
+         System.out.println(d1 + d1.length());
+         if(!d1.equals("null") || !d2.equals("null")){
            where = select.substring(select.length()-5, select.length());
            if(!where.equals("WHERE")){
-             select = select + " AND time BETWEEN " + date1 + " AND " + date2;
+             select = select + " AND time BETWEEN " + d1 + " AND " + d2;
            }
-           else select = select + " time BETWEEN " + date1 + " AND " + date2;
-         }*/
+           else select = select + " time BETWEEN " + d1 + " AND " + d2;
+         }
          System.out.println(select);
 
          if(select.substring(select.length() - 5, select.length()).equals("WHERE")) select = "SELECT * FROM Trip";
@@ -100,7 +104,7 @@ public class DBConnector {
            Trip newTrip = new Trip(name, desc, capa, i, deit);
            results.add(newTrip);
          }
-         //for(Trip t : results) System.out.println(t);
+         for(Trip t : results) System.out.println(t);
          return results;
        }
        catch(NullPointerException e){
@@ -130,13 +134,14 @@ public class DBConnector {
        }
    }
 
-    public List<Trip> findBookedTrips(String key){
+    public List<Trip> findBookedTrips(String key, String key2){
       List<Trip> bookedTrips = new ArrayList<Trip>();
       try{
-        String search = "SELECT * FROM Trip WHERE Id = (SELECT tripID FROM Booking WHERE userID = ?)";
+        String search = "SELECT * FROM Trip WHERE Id = (SELECT tripID FROM Booking WHERE userID = ? AND userName = ?)";
         this.connection = DriverManager.getConnection(url);
         PreparedStatement booked = connection.prepareStatement(search);
         booked.setString(1, key);
+        booked.setString(2, key2);
         ResultSet rs = booked.executeQuery();
         while(rs.next()){
           String name = rs.getString("name");
@@ -208,8 +213,8 @@ public class DBConnector {
        obj.put("cost", arg1);
        obj.put("capacity", arg3);
        DBConnector test = new DBConnector();
-       List<Trip> query = test.query(obj);
-       List<Trip> booked = test.findBookedTrips("bjo");
-       for(Trip t: query) System.out.println(t);
+       //List<Trip> query = test.query(obj);
+       //List<Trip> booked = test.findBookedTrips("2", "2");
+       //for(Trip t: query) System.out.println(t);
      }
 }

@@ -13,6 +13,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Iterator;
 import java.text.*;
+import java.lang.NumberFormatException;
 
 
 public class Search{
@@ -20,9 +21,44 @@ public class Search{
   //Put the initial value of key and email as null in case a user without an account logs in without any authenication
   private String key = null;
   private DBConnector connection;
+  private List<Trip> foundTrips;
+  
   public Search(){
     //this.trips = test();
     //sortTrips(prio);
+  }
+  public List<Trip> getFoundTrips(){
+	  return this.foundTrips;
+  }
+  
+  public void resolveQuery(List<Integer> duration, List<Double> start, String d1, String d2, int cost, int capacity){
+	  connection = new DBConnector();
+	  JSONObject obj = new JSONObject();
+	  obj.put("duration", duration);
+	  obj.put("start", start);
+	  obj.put("arrive", d1);
+	  obj.put("depart", d2);
+	  obj.put("cost", cost);
+	  obj.put("capacity", capacity);
+	  foundTrips = connection.query(obj);
+	  for(Trip t: foundTrips)System.out.println(t);
+  }
+  
+  public boolean isValidDate(String date)throws NumberFormatException{
+	  if(date.length() != 10) return false;
+	  try{
+		  String[] format = date.split("-");
+		  if(format.length != 3) return false;
+		  System.out.println(format[0]+ format[1] + format[2]);
+		  if(format[0].length() != 4 || format[1].length() != 2 || format[2].length() != 2) return false;
+		  int year = Integer.parseInt(format[0]);
+		  int mm = Integer.parseInt(format[1]);
+		  int dd = Integer.parseInt(format[2]);
+	  }
+	  finally{
+		  
+	  }
+	  return true;
   }
 
   public static void main(String[] args){
@@ -87,5 +123,9 @@ public class Search{
           trips.add(temp);
        }
     }
+  }
+  public void findBookedTrips(String name, String pw){
+	  this.connection = new DBConnector();
+	  this.foundTrips = connection.findBookedTrips(name, pw);
   }
 }

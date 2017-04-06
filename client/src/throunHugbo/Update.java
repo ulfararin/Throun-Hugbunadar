@@ -10,27 +10,28 @@ import java.util.Date;
 *@author Bjorn Gudmundsson
 */
 public class Update{
-  private  String url = "jdbc:sqlite:C:/Users/Bjorn Gudmundsson/Documents/GitHub/throun-hugbo/Throun-Hugbunadar/Thround.db";
+  private  String url = "jdbc:sqlite:C:/Users/Bj-rn/Documents/GitHub/Throun-Hugbunadar/Thround.db";
   private Connection connection = null;
   public Update(){}
-  public void bookATrip(int tripId, int howMany, int userId){
+  public void bookATrip(int tripId, int howMany, String userId, String userName) throws SQLException{
     PreparedStatement check = null;
     PreparedStatement update = null;
     PreparedStatement change = null;
     try{
       this.connection = DriverManager.getConnection(url);
-      String booking = "INSERT INTO Booking values(?, ?, null)";
+      String booking = "INSERT INTO Booking values(?, ?, ?,null)";
       String search = "SELECT * FROM User WHERE Id = ?";
       String toChange = "Update Trip SET cap = cap - ? " + " WHERE Id = ?";
       check = connection.prepareStatement(search);
-      check.setInt(1, userId);
+      check.setString(1, userId);
       ResultSet rs = check.executeQuery();
       if(!rs.next()){
-        return;
+    	throw new SQLException();
       }
       else{
         update = connection.prepareStatement(booking);
-        update.setInt(1, userId);
+        update.setString(1, userId);
+        update.setString(2, userName);
         update.setInt(2, tripId);
         update.executeUpdate();
         change = connection.prepareStatement(toChange);
@@ -181,7 +182,6 @@ public class Update{
   }
   public static void main(String args[]){
     Update test = new Update();
-    test.bookATrip(2, 3, 1);
     //test.removeABooking(1, 2);
     test.removeATrip(1);
   }

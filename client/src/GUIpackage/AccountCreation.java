@@ -26,7 +26,7 @@ public class AccountCreation {
 			String p2 = pw2.getText();
 			String name = userName.getText();
 			String email = emailField.getText();
-			boolean mail = email.equals("")||email.contains("@");
+			boolean mail = email.equals("")||email.contains("@.");
 			System.out.println("@");
 			if(p1.equals(p2) && p1 != null && !p1.equals("") && name != null && !name.equals("") && mail){
 				try{
@@ -35,7 +35,8 @@ public class AccountCreation {
 					frame.setVisible(false);
 					frame.dispose();
 				}
-				catch(SQLException ex){;
+				catch(SQLException ex){
+					System.out.println(ex);
 					errorLabel.setVisible(true);
 					errorLabel.setText("Already exists or dangerous input");
 				}
