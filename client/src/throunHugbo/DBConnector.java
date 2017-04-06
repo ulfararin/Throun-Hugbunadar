@@ -34,8 +34,8 @@ public class DBConnector {
          List<Integer> duration = (List<Integer>)preferences.get("duration");
          int cost = (int)preferences.get("cost");
          int capacity = (int)preferences.get("capacity");
-         String d1 = ""+preferences.get("arrive");
-         String d2 = ""+preferences.get("depart");
+         String d1 = (String)preferences.get("arrive");
+         String d2 = (String)preferences.get("depart");
          /*Date date1 = (Date)preferences.get("date1");
          Date date2 = (Date)preferences.get("date2");*/
 
@@ -77,8 +77,8 @@ public class DBConnector {
            else select = select + " cap >= " + capacity;
          }
          
-         System.out.println(d1 + d1.length());
-         if(!d1.equals("null") || !d2.equals("null")){
+         System.out.println(d1.getClass());
+         if(!d1.equals("") || !d2.equals("")){
            where = select.substring(select.length()-5, select.length());
            if(!where.equals("WHERE")){
              select = select + " AND time BETWEEN " + d1 + " AND " + d2;

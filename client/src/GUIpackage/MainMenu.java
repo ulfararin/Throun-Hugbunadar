@@ -64,8 +64,8 @@ public class MainMenu {
 		public void actionPerformed(ActionEvent e){
 			int price = 0;
 			int howMany = 0;
-			String d1 = null;
-			String d2 = null;
+			String d1 = "";
+			String d2 = "";
 			try{
 				String c = cost.getText();
 				if(!c.equals(""))price = Integer.parseInt(c);
