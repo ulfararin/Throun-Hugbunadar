@@ -1,9 +1,11 @@
+package GUIpackage;
 import java.awt.EventQueue;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import org.json.simple.JSONObject;
+
 import throunHugbo.*;
 
 public class DayTrips {
@@ -42,7 +44,9 @@ public class DayTrips {
 			String pw = userPassWord.getText();
 			String name = userName.getText();
 			if(leit.findUser(name, pw)){
-				System.out.println(userName.getText());
+				MainMenu main = new MainMenu(pw, name);
+				frame.setVisible(false);
+				frame.dispose();
 			}
 			else{
 				successLogin.setVisible(true);
