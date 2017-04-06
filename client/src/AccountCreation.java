@@ -41,7 +41,8 @@ public class AccountCreation {
 			}
 			else{
 				errorLabel.setVisible(true);
-				errorLabel.setText("passwords don't match or some fields are empty");
+				if(!mail) errorLabel.setText("need to have empty email field or a valid email address");
+				else errorLabel.setText("passwords don't match or some fields are empty");
 			}
 		}
 	}
