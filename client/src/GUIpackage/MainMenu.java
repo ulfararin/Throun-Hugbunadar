@@ -110,11 +110,14 @@ public class MainMenu {
 					frame.add(t);
 					t.setVisible(true);
 				}
+				frame.remove(badInput);
 				frame.revalidate();
 				frame.repaint();
-				
 			}
 			catch(NumberFormatException p){
+				for(TripLabel t: presentedTrips)frame.remove(t);
+				presentedTrips.clear();
+				frame.add(badInput);
 				badInput.setVisible(true);
 				badInput.setText("One of the fields is not formatted right, date is supposed to be yyyy-mm-dd");
 			}
