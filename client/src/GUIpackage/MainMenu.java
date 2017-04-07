@@ -33,6 +33,7 @@ public class MainMenu {
 	private JTextField date1;
 	private JTextField date2;
 	private JLabel badInput;
+	private List<TripLabel> presentedTrips = new ArrayList<TripLabel>();
 	
 	public MainMenu(String i,String n){
 		this.Id = i;
@@ -60,6 +61,24 @@ public class MainMenu {
 		}
 	}
 	
+	private static class TripLabel extends JLabel{
+		private static Trip t;
+		public TripLabel(Trip s, String HTML){
+			super(HTML);
+			this.t = s;
+			
+		}
+	}
+	
+	public static String toHTML(Trip s){
+		String html = "<html>";
+		html = html + s.getName() + "<br>";
+		html = html + s.getDesc() + "<br>";
+		html = html + s.getCapacity() + "<br>";
+		html = html + s.getDate() + "</html>";
+		return html;
+	}
+	
 	private class pressQueryButton implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			int price = 0;
@@ -80,6 +99,20 @@ public class MainMenu {
 				}
 				System.out.println(d1);
 				Engine.resolveQuery(durationList, startList, d1, d2, price, howMany);
+				List<Trip> res = Engine.getFoundTrips();
+				for(TripLabel t: presentedTrips) frame.remove(t);
+				presentedTrips.clear();
+				for(Trip t: res){
+					TripLabel temp = new TripLabel(t, toHTML(t));
+					presentedTrips.add(temp);
+				}
+				for(TripLabel t: presentedTrips){
+					frame.add(t);
+					t.setVisible(true);
+				}
+				frame.revalidate();
+				frame.repaint();
+				
 			}
 			catch(NumberFormatException p){
 				badInput.setVisible(true);
@@ -111,12 +144,12 @@ public class MainMenu {
 		queryButton.setPreferredSize(new Dimension(150, 40));
 		queryButton.setText("Find relevant trips");
 		queryButton.addActionListener(new pressQueryButton());
-		
 		//combo boxes
 		start = new JComboBox<Double>(startOptions);
 		start.addActionListener(new addToStartList());
 		duration = new JComboBox<Integer>(durationOptions);
 		duration.addActionListener(new addToDurationList());
+		
 		
 		//TextFields
 		cost = new JTextField(10);
