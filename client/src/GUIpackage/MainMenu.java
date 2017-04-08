@@ -9,6 +9,7 @@ import java.awt.event.*;
 import org.json.simple.JSONObject;
 import throunHugbo.*;
 import java.text.ParseException;
+import javax.swing.border.LineBorder;
 
 
 public class MainMenu {
@@ -57,7 +58,6 @@ public class MainMenu {
 	private class addToDurationList implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			durationList.add((int)duration.getSelectedItem());
-			System.out.println(duration.getSelectedItem());
 		}
 	}
 	
@@ -66,9 +66,9 @@ public class MainMenu {
 		public TripLabel(Trip s, String HTML){
 			super(HTML);
 			this.t = s;
-			
 		}
 	}
+
 	
 	public static String toHTML(Trip s){
 		String html = "<html>";
@@ -92,12 +92,10 @@ public class MainMenu {
 				if(!c.equals(""))howMany = Integer.parseInt(c);
 				String arrive = date1.getText();
 				String depart = date2.getText();
-				System.out.println(Engine.isValidDate(arrive));
 				if(Engine.isValidDate(arrive) && Engine.isValidDate(depart)){
 					d1 = arrive;
 					d2 = depart;
 				}
-				System.out.println(d1);
 				Engine.resolveQuery(durationList, startList, d1, d2, price, howMany);
 				List<Trip> res = Engine.getFoundTrips();
 				for(TripLabel t: presentedTrips) frame.remove(t);
@@ -107,8 +105,15 @@ public class MainMenu {
 					presentedTrips.add(temp);
 				}
 				for(TripLabel t: presentedTrips){
+					t.setBorder(new LineBorder(Color.black));
+					t.setPreferredSize(new Dimension(frame.getWidth() - 50,100));
 					frame.add(t);
 					t.setVisible(true);
+					t.addMouseListener(new MouseAdapter(){
+						public void mouseClicked(MouseEvent e){
+							System.out.println(((TripLabel)e.getSource()).t);
+						}
+					});
 				}
 				frame.revalidate();
 				frame.repaint();

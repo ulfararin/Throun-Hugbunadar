@@ -46,7 +46,6 @@ public class DBConnector {
              }
              select = select + " start = " + start.get(start.size() - 1) + ")";
          }
-         System.out.println(start);
 
          if(!duration.isEmpty()){
            int len = select.length();
@@ -77,7 +76,6 @@ public class DBConnector {
            else select = select + " cap >= " + capacity;
          }
          
-         System.out.println(d1.getClass());
          if(!d1.equals("") || !d2.equals("")){
            where = select.substring(select.length()-5, select.length());
            if(!where.equals("WHERE")){
@@ -85,7 +83,6 @@ public class DBConnector {
            }
            else select = select + " time BETWEEN " + d1 + " AND " + d2;
          }
-         System.out.println(select);
 
          if(select.substring(select.length() - 5, select.length()).equals("WHERE")) select = "SELECT * FROM Trip";
          //System.out.println(select);
@@ -104,7 +101,6 @@ public class DBConnector {
            Trip newTrip = new Trip(name, desc, capa, i, deit);
            results.add(newTrip);
          }
-         for(Trip t : results) System.out.println(t);
          return results;
        }
        catch(NullPointerException e){

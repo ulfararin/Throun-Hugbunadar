@@ -41,7 +41,6 @@ public class Search{
 	  obj.put("cost", cost);
 	  obj.put("capacity", capacity);
 	  foundTrips = connection.query(obj);
-	  for(Trip t: foundTrips)System.out.println(t);
   }
   
   public boolean isValidDate(String date)throws NumberFormatException{
