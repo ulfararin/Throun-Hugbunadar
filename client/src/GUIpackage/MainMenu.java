@@ -35,6 +35,8 @@ public class MainMenu {
 	private JTextField date2;
 	private JLabel badInput;
 	private List<TripLabel> presentedTrips = new ArrayList<TripLabel>();
+	private JPanel pan;
+	private JScrollPane scroll;
 	
 	public MainMenu(String i,String n){
 		this.Id = i;
@@ -98,7 +100,7 @@ public class MainMenu {
 				}
 				Engine.resolveQuery(durationList, startList, d1, d2, price, howMany);
 				List<Trip> res = Engine.getFoundTrips();
-				for(TripLabel t: presentedTrips) frame.remove(t);
+				for(TripLabel t: presentedTrips) pan.remove(t);
 				presentedTrips.clear();
 				for(Trip t: res){
 					TripLabel temp = new TripLabel(t, toHTML(t));
@@ -107,7 +109,7 @@ public class MainMenu {
 				for(TripLabel t: presentedTrips){
 					t.setBorder(new LineBorder(Color.black));
 					t.setPreferredSize(new Dimension(frame.getWidth() - 50,100));
-					frame.add(t);
+					pan.add(t);
 					t.setVisible(true);
 					t.addMouseListener(new MouseAdapter(){
 						public void mouseClicked(MouseEvent e){
@@ -115,6 +117,11 @@ public class MainMenu {
 						}
 					});
 				}
+				frame.remove(scroll);
+				scroll = new JScrollPane(pan, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
+				frame.add(scroll);
 				frame.revalidate();
 				frame.repaint();
 				
@@ -164,6 +171,10 @@ public class MainMenu {
 		
 		//Label
 		badInput = new JLabel();
+		pan = new JPanel(new GridLayout(0, 1));
+		pan.add(badInput);
+		badInput.setVisible(true);
+		scroll = new JScrollPane(pan);
 		
 		frame.add(bookedTrips);
 		frame.add(start);
@@ -173,7 +184,7 @@ public class MainMenu {
 		frame.add(date1);
 		frame.add(date2);
 		frame.add(queryButton);
-		frame.add(badInput);
-		badInput.setVisible(false);
+		//frame.add(badInput);
+		frame.add(scroll);
 	}
 }
