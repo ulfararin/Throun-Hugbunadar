@@ -117,16 +117,22 @@ public class MainMenu {
 						}
 					});
 				}
+<<<<<<< HEAD
 				frame.remove(scroll);
 				scroll = new JScrollPane(pan, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 				scroll.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
 				frame.add(scroll);
+=======
+				frame.remove(badInput);
+>>>>>>> bf2f6da97e574a25a7c0644968266d0ac9a3af1f
 				frame.revalidate();
 				frame.repaint();
-				
 			}
 			catch(NumberFormatException p){
+				for(TripLabel t: presentedTrips)frame.remove(t);
+				presentedTrips.clear();
+				frame.add(badInput);
 				badInput.setVisible(true);
 				badInput.setText("One of the fields is not formatted right, date is supposed to be yyyy-mm-dd");
 			}

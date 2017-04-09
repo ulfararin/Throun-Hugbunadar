@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Björn Guðmundsson
  */
 public class DBConnector {
-    private  String url = "jdbc:sqlite:C:/Users/Bjorn Gudmundsson/Documents/GitHub/throun-hugbo/Throun-Hugbunadar/Thround.db";
+    private  String url = "jdbc:sqlite:C:/Users/Bj-rn/Documents/GitHub/Throun-Hugbunadar/Thround.db";
     private  Connection connection = null;
 
     public DBConnector(){
