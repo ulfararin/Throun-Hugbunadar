@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Björn Guðmundsson
  */
 public class DBConnector {
-    private  String url = "jdbc:sqlite:C:/Users/Bj-rn/Documents/GitHub/Throun-Hugbunadar/Thround.db";
+    private  String url = "jdbc:sqlite:C:/Users/Bjorn Gudmundsson/Documents/GitHub/throun-hugbo/Throun-Hugbunadar/Thround.db";
     private  Connection connection = null;
 
     public DBConnector(){
@@ -188,6 +188,33 @@ public class DBConnector {
         }
         return result;
       }
+    }
+    
+    public List<String> findReviews(int tripId) throws SQLException{
+    	PreparedStatement search = null;
+    	List<String> res = new ArrayList<String>();
+    	try{
+    		this.connection = DriverManager.getConnection(url);
+    		String sel = "SELECT reviews FROM Booking WHERE tripId = ?";
+    		search = connection.prepareStatement(sel);
+    		search.setInt(1,tripId);
+    		ResultSet rs = search.executeQuery();
+    		while(rs.next()){
+    			String r = rs.getString("review");
+    			if(r != null && !r.equals("")){
+    				res.add(r);
+    			}
+    		}
+    		return res;
+    	}
+    	finally{
+    		if(connection != null){
+    			connection.close();
+    		}
+    		if(search != null){
+    			search.close();
+    		}
+    	}
     }
 
     /**

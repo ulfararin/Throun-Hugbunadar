@@ -37,6 +37,7 @@ public class MainMenu {
 	private List<TripLabel> presentedTrips = new ArrayList<TripLabel>();
 	private JPanel pan;
 	private JScrollPane scroll;
+	private booking bookATrip;
 	
 	public MainMenu(String i,String n){
 		this.Id = i;
@@ -64,7 +65,7 @@ public class MainMenu {
 	}
 	
 	private static class TripLabel extends JLabel{
-		private static Trip t;
+		private Trip t;
 		public TripLabel(Trip s, String HTML){
 			super(HTML);
 			this.t = s;
@@ -79,6 +80,14 @@ public class MainMenu {
 		html = html + s.getCapacity() + "<br>";
 		html = html + s.getDate() + "</html>";
 		return html;
+	}
+	
+	private class book extends MouseAdapter{
+		public void mousePressed (MouseEvent e){
+			Trip clicked = ((TripLabel)e.getSource()).t;
+			System.out.println(clicked);
+			bookATrip = new booking(Id, clicked, name);
+		}
 	}
 	
 	private class pressQueryButton implements ActionListener {
@@ -104,6 +113,7 @@ public class MainMenu {
 				presentedTrips.clear();
 				for(Trip t: res){
 					TripLabel temp = new TripLabel(t, toHTML(t));
+					temp.addMouseListener(new book());
 					presentedTrips.add(temp);
 				}
 				for(TripLabel t: presentedTrips){
@@ -111,24 +121,16 @@ public class MainMenu {
 					t.setPreferredSize(new Dimension(frame.getWidth() - 50,100));
 					pan.add(t);
 					t.setVisible(true);
-					t.addMouseListener(new MouseAdapter(){
-						public void mouseClicked(MouseEvent e){
-							System.out.println(((TripLabel)e.getSource()).t);
-						}
-					});
 				}
-<<<<<<< HEAD
 				frame.remove(scroll);
 				scroll = new JScrollPane(pan, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				scroll.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
+						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setPreferredSize(new Dimension(frame.getWidth() - 25, frame.getHeight()));
 				frame.add(scroll);
-=======
 				frame.remove(badInput);
->>>>>>> bf2f6da97e574a25a7c0644968266d0ac9a3af1f
 				frame.revalidate();
 				frame.repaint();
-			}
+		}
 			catch(NumberFormatException p){
 				for(TripLabel t: presentedTrips)frame.remove(t);
 				presentedTrips.clear();
@@ -178,8 +180,13 @@ public class MainMenu {
 		//Label
 		badInput = new JLabel();
 		pan = new JPanel(new GridLayout(0, 1));
-		pan.add(badInput);
-		badInput.setVisible(true);
+		MouseListener m = new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				System.out.println(e.getSource());
+			}
+		};
+		//pan.add(badInput);
+		//badInput.setVisible(true);
 		scroll = new JScrollPane(pan);
 		
 		frame.add(bookedTrips);

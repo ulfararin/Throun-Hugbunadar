@@ -10,7 +10,7 @@ import java.util.Date;
 *@author Bjorn Gudmundsson
 */
 public class Update{
-  private  String url = "jdbc:sqlite:C:/Users/Bj-rn/Documents/GitHub/Throun-Hugbunadar/Thround.db";
+  private  String url = "jdbc:sqlite:C:/Users/Bjorn Gudmundsson/Documents/GitHub/throun-hugbo/Throun-Hugbunadar/Thround.db";
   private Connection connection = null;
   public Update(){}
   public void bookATrip(int tripId, int howMany, String userId, String userName) throws SQLException{
@@ -32,7 +32,7 @@ public class Update{
         update = connection.prepareStatement(booking);
         update.setString(1, userId);
         update.setString(2, userName);
-        update.setInt(2, tripId);
+        update.setInt(3, tripId);
         update.executeUpdate();
         change = connection.prepareStatement(toChange);
         change.setInt(1, howMany);
@@ -173,12 +173,33 @@ public class Update{
   public void addATrip(){
   }
 
-  public void addAReview(String userId, String review){
-    try{
-      this.connection = DriverManager.getConnection(url);
-      PreparedStatement add = null;
+  public void addAReview(String userId, String userName, int tripId, String review) throws SQLException{
+	  DBConnector DB = new DBConnector();
+	  PreparedStatement add = null;
+	  try{
+		  this.connection = DriverManager.getConnection(url);
+		  String insert = "UPDATE Booking SET review = ? WHERE tripId = ? AND userName = ? AND userId = ?";
+		  List<Trip> check = DB.findBookedTrips(userId, userName);
+		  if(check.isEmpty()){
+			  throw new SQLException();
+		  }
+		  else{
+			  add = connection.prepareStatement(insert);
+			  add.setString(1, review);
+			  add.setInt(2, tripId);
+			  add.setString(3, userName);
+			  add.setString(4, userId);
+			  add.executeUpdate();
+		  }
     }
-    catch(SQLException e){}
+    finally{
+    	if(connection != null){
+    		connection.close();
+    	}
+    	if(add != null){
+    		add.close();
+    	}
+    }
   }
   public static void main(String args[]){
     Update test = new Update();
