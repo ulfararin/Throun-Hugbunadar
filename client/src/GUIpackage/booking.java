@@ -20,6 +20,10 @@ public class booking {
 	private JTextField howMany;
 	private JButton leaveAReview;
 	private DBConnector DB;
+	private JButton leaveWindow;
+	private JLabel errorMessage;
+	private JButton removeBooking;
+	private JPanel reviewPanel;
 	
 	private Trip bookThis;
 	private JTextField review;
@@ -40,9 +44,12 @@ public class booking {
 				update.bookATrip(bookThis.getId(), Integer.parseInt(howMany.getText()), Id, name);
 			}
 			catch(SQLException ex){
-				System.out.println(e);
+				errorMessage.setText("Account already exists");
+				errorMessage.setVisible(true);
 			}
 			catch(NumberFormatException exc){
+				errorMessage.setText("Put a number in the textfield");
+				errorMessage.setVisible(true);
 				
 			}
 		}
@@ -54,24 +61,59 @@ public class booking {
 				if(!review.getText().equals("")){
 					update.addAReview(Id, name, bookThis.getId(), review.getText());
 				}
+				errorMessage.setText("You left a review");
+			}
+			catch(NumberFormatException exc){	
+			}
+			catch(SQLException n){
+				errorMessage.setText("Was not able to leave a review, you are not booked on this trip");
+				System.out.println("sql");
+			}
+			frame.revalidate();
+			frame.repaint();
+		}
+	}
+	
+	private class closeWindow implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			frame.setVisible(false);
+			frame.dispose();
+		}
+	}
+	
+	private class remove implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			update = new Update();
+			try{
+				update.removeABooking(Id, bookThis.getId(), name);
 			}
 			catch(SQLException ex){
 				System.out.println(e);
 			}
-			catch(NumberFormatException exc){
-				
-			}
 		}
 	}
+	
 	public void initialize(){
 		try{
 			DB = new DBConnector();
-			List<String> s = DB.findReviews(bookThis.getId());
-			for(String k: s)System.out.println(k);
+			List<String[]> s = DB.findReviews(bookThis.getId());
+			if(!s.isEmpty()){
+				reviewPanel = new JPanel(new GridLayout(0, 1));
+				for(String[] k: s){
+					JLabel lab = new JLabel();
+					lab.setText(k[1] + ": " + k[0]);
+					lab.setPreferredSize(new Dimension(100, 100));
+					lab.setBorder(new LineBorder(Color.black));
+					lab.setFont(new Font("TimesRoman", Font.BOLD, 45));
+					reviewPanel.add(lab);
+				}
+			}
 		}
 		catch(SQLException e){
-			
+			System.out.println(e);
 		}
+		errorMessage = new JLabel();
+		errorMessage.setBackground(Color.GREEN);
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 900, 500);
@@ -84,6 +126,20 @@ public class booking {
 		timeToBook.setPreferredSize(new Dimension(150, 40));
 		timeToBook.setText("Find  Booked trips");
 		timeToBook.addActionListener(new book());
+		
+		removeBooking = new JButton();
+		removeBooking.setBackground(Color.CYAN);
+		removeBooking.setOpaque(true);
+		removeBooking.setPreferredSize(new Dimension(150, 40));
+		removeBooking.setText("Remove this booking");
+		removeBooking.addActionListener(new remove());
+		
+		leaveWindow = new JButton();
+		leaveWindow.setBackground(Color.black);
+		leaveWindow.setOpaque(true);
+		leaveWindow.setPreferredSize(new Dimension(150, 40));
+		leaveWindow.setText("Leave this window");
+		leaveWindow.addActionListener(new closeWindow());
 		
 		leaveAReview = new JButton();
 		leaveAReview.setBackground(Color.red);
@@ -100,11 +156,22 @@ public class booking {
 		tripDesc.setVisible(true);
 		review = new JTextField(15);
 		howMany = new JTextField(10);
+		
 		frame.add(howMany);
 		frame.add(review);
 		frame.add(tripName);
 		frame.add(tripDesc);
 		frame.add(timeToBook);
 		frame.add(leaveAReview);
+		frame.add(leaveWindow);
+		frame.add(removeBooking);
+		frame.add(errorMessage);
+		if(reviewPanel != null){
+			JScrollPane scroll = new JScrollPane(reviewPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll.setPreferredSize(new Dimension(frame.getWidth() - 25, 250));
+			frame.add(scroll);
+		}
+		errorMessage.setVisible(true);
 	}
 }

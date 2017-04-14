@@ -180,11 +180,6 @@ public class MainMenu {
 		//Label
 		badInput = new JLabel();
 		pan = new JPanel(new GridLayout(0, 1));
-		MouseListener m = new MouseAdapter() {
-			public void mouseClicked(MouseEvent e){
-				System.out.println(e.getSource());
-			}
-		};
 		//pan.add(badInput);
 		//badInput.setVisible(true);
 		scroll = new JScrollPane(pan);

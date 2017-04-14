@@ -190,29 +190,32 @@ public class DBConnector {
       }
     }
     
-    public List<String> findReviews(int tripId) throws SQLException{
+    public List<String[]> findReviews(int tripId) throws SQLException{
     	PreparedStatement search = null;
-    	List<String> res = new ArrayList<String>();
+    	List<String[]> res = new ArrayList<String[]>();
     	try{
     		this.connection = DriverManager.getConnection(url);
-    		String sel = "SELECT reviews FROM Booking WHERE tripId = ?";
+    		String sel = "SELECT review, userName FROM Booking WHERE tripId = ?";
     		search = connection.prepareStatement(sel);
+    		
     		search.setInt(1,tripId);
     		ResultSet rs = search.executeQuery();
     		while(rs.next()){
     			String r = rs.getString("review");
+    			String r2 = rs.getString("userName");
+    			String[] arr = {r, r2};
     			if(r != null && !r.equals("")){
-    				res.add(r);
+    				res.add(arr);
     			}
     		}
     		return res;
     	}
     	finally{
-    		if(connection != null){
-    			connection.close();
-    		}
     		if(search != null){
     			search.close();
+    		}
+    		if(connection != null){
+    			connection.close();
     		}
     	}
     }

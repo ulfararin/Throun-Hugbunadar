@@ -13,7 +13,7 @@ public class Update{
   private  String url = "jdbc:sqlite:C:/Users/Bjorn Gudmundsson/Documents/GitHub/throun-hugbo/Throun-Hugbunadar/Thround.db";
   private Connection connection = null;
   public Update(){}
-  public void bookATrip(int tripId, int howMany, String userId, String userName) throws SQLException{
+  public void bookATrip(int tripId, int howMany, String userId, String userName) throws SQLException, org.sqlite.SQLiteException{
     PreparedStatement check = null;
     PreparedStatement update = null;
     PreparedStatement change = null;
@@ -41,6 +41,7 @@ public class Update{
       }
     }
     catch(SQLException e){
+      System.out.println("yo");
       System.out.println(e);
     }
     finally{
@@ -48,6 +49,7 @@ public class Update{
         try{
            check.close();
         }
+        
         catch(SQLException e){
 
         }
@@ -75,31 +77,23 @@ public class Update{
       }
     }
   }
-  public void removeABooking(String userId, int tripId){
+  public void removeABooking(String userId, int tripId, String userName) throws SQLException{
     PreparedStatement delete = null;
     try{
-      String del = "DELETE FROM Booking WHERE userID = ? " + "AND tripID = ?";
+      String del = "DELETE FROM Booking WHERE userID = ? " + "AND tripID = ? AND UserName = ?";
       this.connection = DriverManager.getConnection(url);
       delete = connection.prepareStatement(del);
       delete.setString(1, userId);
       delete.setInt(2, tripId);
+      delete.setString(3, userName);
       delete.executeUpdate();
-    }
-    catch(SQLException e){
-      System.out.println(e);
     }
     finally{
       if(delete != null){
-        try{
-           delete.close();
-        }
-        catch(SQLException e){}
+          delete.close();
       }
       if(connection != null){
-        try{
-           connection.close();
-        }
-        catch(SQLException e){}
+          connection.close();
       }
     }
   }
@@ -173,17 +167,18 @@ public class Update{
   public void addATrip(){
   }
 
-  public void addAReview(String userId, String userName, int tripId, String review) throws SQLException{
+  public void addAReview(String userId, String userName, int tripId, String review)throws SQLException{
 	  DBConnector DB = new DBConnector();
 	  PreparedStatement add = null;
 	  try{
-		  this.connection = DriverManager.getConnection(url);
 		  String insert = "UPDATE Booking SET review = ? WHERE tripId = ? AND userName = ? AND userId = ?";
 		  List<Trip> check = DB.findBookedTrips(userId, userName);
 		  if(check.isEmpty()){
+			  System.out.println("yoyoyo");
 			  throw new SQLException();
 		  }
 		  else{
+			  this.connection = DriverManager.getConnection(url);
 			  add = connection.prepareStatement(insert);
 			  add.setString(1, review);
 			  add.setInt(2, tripId);
@@ -193,11 +188,11 @@ public class Update{
 		  }
     }
     finally{
-    	if(connection != null){
-    		connection.close();
-    	}
     	if(add != null){
     		add.close();
+    	}
+    	if(connection != null){
+    		connection.close();
     	}
     }
   }
