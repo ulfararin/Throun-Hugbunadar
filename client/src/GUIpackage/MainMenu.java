@@ -16,7 +16,7 @@ public class MainMenu {
 	//I don't know what to call these
 	private String Id;
 	private String name;
-	private List<Trip> results;
+	private List<DayTrips> results;
 	private Search Engine = new Search();
 	private Double[] startOptions = {1.0, 2.0, 3.0, 4.0, 7.0, 8.0, 9.0, 10.0, 14.0};
 	private Integer[] durationOptions = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
@@ -65,15 +65,15 @@ public class MainMenu {
 	}
 	
 	private static class TripLabel extends JLabel{
-		private Trip t;
-		public TripLabel(Trip s, String HTML){
+		private DayTrips t;
+		public TripLabel(DayTrips s, String HTML){
 			super(HTML);
 			this.t = s;
 		}
 	}
 
 	
-	public static String toHTML(Trip s){
+	public static String toHTML(DayTrips s){
 		String html = "<html>";
 		html = html + s.getName() + "<br>";
 		html = html + s.getDesc() + "<br>";
@@ -84,7 +84,7 @@ public class MainMenu {
 	
 	private class book extends MouseAdapter{
 		public void mousePressed (MouseEvent e){
-			Trip clicked = ((TripLabel)e.getSource()).t;
+			DayTrips clicked = ((TripLabel)e.getSource()).t;
 			System.out.println(clicked);
 			bookATrip = new booking(Id, clicked, name);
 		}
@@ -108,10 +108,10 @@ public class MainMenu {
 					d2 = depart;
 				}
 				Engine.resolveQuery(durationList, startList, d1, d2, price, howMany);
-				List<Trip> res = Engine.getFoundTrips();
+				List<DayTrips> res = Engine.getFoundTrips();
 				for(TripLabel t: presentedTrips) pan.remove(t);
 				presentedTrips.clear();
-				for(Trip t: res){
+				for(DayTrips t: res){
 					TripLabel temp = new TripLabel(t, toHTML(t));
 					temp.addMouseListener(new book());
 					presentedTrips.add(temp);

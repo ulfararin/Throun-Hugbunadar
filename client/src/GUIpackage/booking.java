@@ -25,12 +25,12 @@ public class booking {
 	private JButton removeBooking;
 	private JPanel reviewPanel;
 	
-	private Trip bookThis;
+	private DayTrips bookThis;
 	private JTextField review;
 	private String Id;
 	private String name;
 	private Update update;
-	public booking(String i, Trip t, String n){
+	public booking(String i, DayTrips t, String n){
 		this.bookThis = t;
 		this.Id = i;
 		this.name = n;

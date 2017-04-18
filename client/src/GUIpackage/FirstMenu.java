@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 import throunHugbo.*;
 
-public class DayTrips {
+public class FirstMenu {
 
 	private JFrame frame;
 	private JTextField userName;
@@ -24,7 +24,7 @@ public class DayTrips {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DayTrips window = new DayTrips();
+					FirstMenu window = new FirstMenu();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class DayTrips {
 	/**
 	 * Create the application.
 	 */
-	public DayTrips() {
+	public FirstMenu() {
 		initialize();
 	}
 	private class LoginButton implements ActionListener {

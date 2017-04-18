@@ -17,17 +17,17 @@ import java.lang.NumberFormatException;
 
 
 public class Search{
-  private List<Trip> trips = new ArrayList<Trip>();
+  private List<DayTrips> trips = new ArrayList<DayTrips>();
   //Put the initial value of key and email as null in case a user without an account logs in without any authenication
   private String key = null;
   private DBConnector connection;
-  private List<Trip> foundTrips;
+  private List<DayTrips> foundTrips;
   
   public Search(){
     //this.trips = test();
     //sortTrips(prio);
   }
-  public List<Trip> getFoundTrips(){
+  public List<DayTrips> getFoundTrips(){
 	  return this.foundTrips;
   }
   
@@ -95,7 +95,7 @@ public class Search{
     if(!trips.isEmpty()){
       TreeMap tree = new TreeMap();
 
-      for(Trip piv: trips){
+      for(DayTrips piv: trips){
         try{
           method = piv.getClass().getMethod(func);
           tree.put(method.invoke(piv), piv);
@@ -118,7 +118,7 @@ public class Search{
       Iterator i = set.iterator();
       while(i.hasNext()) {
           Map.Entry me = (Map.Entry)i.next();
-          Trip temp = (Trip)me.getValue();
+          DayTrips temp = (DayTrips)me.getValue();
           trips.add(temp);
        }
     }

@@ -164,15 +164,12 @@ public class Update{
     }
   }
 
-  public void addATrip(){
-  }
-
   public void addAReview(String userId, String userName, int tripId, String review)throws SQLException{
 	  DBConnector DB = new DBConnector();
 	  PreparedStatement add = null;
 	  try{
 		  String insert = "UPDATE Booking SET review = ? WHERE tripId = ? AND userName = ? AND userId = ?";
-		  List<Trip> check = DB.findBookedTrips(userId, userName);
+		  List<DayTrips> check = DB.findBookedTrips(userId, userName);
 		  if(check.isEmpty()){
 			  System.out.println("yoyoyo");
 			  throw new SQLException();

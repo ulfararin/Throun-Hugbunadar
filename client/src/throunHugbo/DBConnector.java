@@ -15,9 +15,9 @@ public class DBConnector {
 
     public DBConnector(){
     }
-    public List<Trip> query(JSONObject preferences)
+    public List<DayTrips> query(JSONObject preferences)
    {
-       List<Trip> results = new ArrayList<Trip>();
+       List<DayTrips> results = new ArrayList<DayTrips>();
        try{
          this.connection = DriverManager.getConnection(url);
        }
@@ -98,7 +98,7 @@ public class DBConnector {
            int capa = rs.getInt("cap");
            String deit = rs.getString("time");
            int i = rs.getInt("id");
-           Trip newTrip = new Trip(name, desc, capa, i, deit);
+           DayTrips newTrip = new DayTrips(name, desc, capa, i, deit);
            results.add(newTrip);
          }
          return results;
@@ -130,8 +130,8 @@ public class DBConnector {
        }
    }
 
-    public List<Trip> findBookedTrips(String key, String key2){
-      List<Trip> bookedTrips = new ArrayList<Trip>();
+    public List<DayTrips> findBookedTrips(String key, String key2){
+      List<DayTrips> bookedTrips = new ArrayList<DayTrips>();
       try{
         String search = "SELECT * FROM Trip WHERE Id = (SELECT tripID FROM Booking WHERE userID = ? AND userName = ?)";
         this.connection = DriverManager.getConnection(url);
@@ -145,7 +145,7 @@ public class DBConnector {
           int capa = rs.getInt("cap");
           String deit = rs.getString("time");
           int i = rs.getInt("id");
-          Trip newTrip = new Trip(name, desc, capa, i, deit);
+          DayTrips newTrip = new DayTrips(name, desc, capa, i, deit);
           bookedTrips.add(newTrip);
         }
         connection.close();

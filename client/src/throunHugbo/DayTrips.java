@@ -3,7 +3,7 @@ package throunHugbo;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Trip{
+public class DayTrips{
   private String name;
   private String desc;
   private String date;
@@ -11,7 +11,7 @@ public class Trip{
   private int id;
 
 
-  public Trip (String n, String d, int c, int i, String da){
+  public DayTrips (String n, String d, int c, int i, String da){
     this.name = n;
     this.desc = d;
     this.date = da;
