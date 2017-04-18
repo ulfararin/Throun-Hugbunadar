@@ -79,10 +79,11 @@ public class DBConnector {
          if(!d1.equals("") || !d2.equals("")){
            where = select.substring(select.length()-5, select.length());
            if(!where.equals("WHERE")){
-             select = select + " AND time BETWEEN " + d1 + " AND " + d2;
+             select = select + " AND time BETWEEN " + "\'" + d1 + "\'" + " AND " + "\'" + d2 + "\'";
            }
-           else select = select + " time BETWEEN " + d1 + " AND " + d2;
+           else select = select + " time BETWEEN " +  "\'" + d1 + "\'" +  " AND " +  "\'" + d2 + "\'";
          }
+         System.out.println(select);
 
          if(select.substring(select.length() - 5, select.length()).equals("WHERE")) select = "SELECT * FROM Trip";
          //System.out.println(select);
